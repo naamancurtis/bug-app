@@ -1,0 +1,2 @@
+[workspace]
+members = ["common", "get_projects", "create_project", "bugs"]

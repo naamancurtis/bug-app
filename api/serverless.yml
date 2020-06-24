@@ -1,0 +1,70 @@
+service: bug-app
+
+custom:
+  BUG_APP_DYNAMO_TABLE: bug-app-table
+
+provider:
+  name: aws
+  runtime: rust
+  environment: ${self:custom}
+
+plugins:
+  - serverless-rust
+  - serverless-iam-roles-per-function
+
+package:
+  individually: true
+
+functions:
+  get_projects:
+    handler: get_projects
+    events:
+      - http:
+          path: /projects
+          method: get
+          cors: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:Scan
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
+  create_project:
+    handler: create_project
+    events:
+      - http:
+          path: /projects
+          method: post
+          cors: true
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
+resources:
+  Resources:
+    BugTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: ${self:custom.BUG_APP_DYNAMO_TABLE}
+        AttributeDefinitions:
+          - AttributeName: projectId
+            AttributeType: S
+          - AttributeName: bugId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: projectId
+            KeyType: HASH
+          - AttributeName: bugId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
