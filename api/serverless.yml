@@ -2,6 +2,7 @@ service: bug-app
 
 custom:
   BUG_APP_DYNAMO_TABLE: bug-app-table
+  RUST_LOG: debug
 
 provider:
   name: aws
@@ -23,6 +24,17 @@ functions:
           path: /projects
           method: get
           cors: true
+          integration: lambda
+          request:
+            passThrough: NEVER
+            template:
+              application/json: ""
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.path('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -39,10 +51,47 @@ functions:
           path: /projects
           method: post
           cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: $input.json('$')
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.path('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
           - dynamodb:PutItem
+          - dynamodb:GetItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
+  update_project:
+    handler: update_project
+    events:
+      - http:
+          path: /projects
+          method: put
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: '{$input.json("$")}'
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.path('$')
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:UpdateItem
         Resource:
           Fn::GetAtt:
             - BugTable

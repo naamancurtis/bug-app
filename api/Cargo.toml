@@ -1,2 +1,2 @@
 [workspace]
-members = ["common", "get_projects", "create_project", "bugs"]
+members = ["common", "get_projects", "create_project",  "update_project","bugs"]
