@@ -82,7 +82,7 @@ functions:
           request:
             passThrough: WHEN_NO_TEMPLATES
             template:
-              application/json: '{$input.json("$")}'
+              application/json: $input.json('$')
           response:
             passThrough: WHEN_NO_TEMPLATES
             headers:

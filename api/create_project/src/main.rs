@@ -4,11 +4,26 @@ use dynomite::{
     FromAttributes, Item, Retries,
 };
 
-use common::project::{CreateNewProjectRequest, Project};
+use common::project::Project;
 use lambda::handler_fn;
 use log::debug;
+use serde::{Deserialize, Serialize};
+use std::env::var;
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
+
+#[derive(Deserialize, Serialize, Debug, Clone, Default)]
+struct CreateNewProjectRequest {
+    #[serde(rename = "projectId")]
+    project_id: String,
+    name: String,
+}
+
+impl From<CreateNewProjectRequest> for Project {
+    fn from(p: CreateNewProjectRequest) -> Project {
+        Project::new(p.project_id, p.name)
+    }
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
@@ -26,7 +41,7 @@ async fn create_project(request: CreateNewProjectRequest) -> Result<Project, Err
 
     let project: Project = request.into();
     let key = project.key();
-    let table_name = std::env::var("BUG_APP_DYNAMO_TABLE")?;
+    let table_name = var("BUG_APP_DYNAMO_TABLE")?;
 
     let creation_result = db_client
         .clone()
