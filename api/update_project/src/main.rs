@@ -6,21 +6,21 @@ use dynomite::{
 
 use common::project::{Project, ProjectIdentifierWrapper};
 use lambda::handler_fn;
-use log::debug;
-use serde::{Deserialize, Serialize};
+use log::{debug, info};
+use serde::Deserialize;
 use std::collections::HashMap;
 use std::env::var;
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 struct UpdateProjectRequest {
     #[serde(rename = "projectId")]
     project_id: String,
     update: UpdateProject,
 }
 
-#[derive(Deserialize, Serialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Clone)]
 enum UpdateProject {
     AddProjectMember(String),
     RemoveProjectMember(String),
@@ -54,6 +54,10 @@ async fn update_project(request: UpdateProjectRequest) -> Result<Project, Error>
 
     match request.update {
         UpdateProject::AddProjectMember(member) => {
+            info!(
+                "Adding Member: {} to Project {}",
+                member, project_key.project_id
+            );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
 
             expression_attribute_values.insert(
@@ -64,6 +68,10 @@ async fn update_project(request: UpdateProjectRequest) -> Result<Project, Error>
             dynamo_db_update.update_expression = Some("ADD #members :member".to_string());
         }
         UpdateProject::RemoveProjectMember(member) => {
+            info!(
+                "Deleting Member: {} from Project {}",
+                member, project_key.project_id
+            );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
 
             expression_attribute_values.insert(

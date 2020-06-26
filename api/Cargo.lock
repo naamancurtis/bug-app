@@ -365,6 +365,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "delete_project"
+version = "0.1.0"
+dependencies = [
+ "common",
+ "dynomite",
+ "lambda",
+ "log",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "simple_logger",
+ "tokio 0.2.21",
+ "uuid",
+]
+
+[[package]]
 name = "digest"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

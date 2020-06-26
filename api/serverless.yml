@@ -96,6 +96,31 @@ functions:
           Fn::GetAtt:
             - BugTable
             - Arn
+  delete_project:
+    handler: delete_project
+    events:
+      - http:
+          path: /projects/{projectId}
+          method: delete
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: ${file(body_mapping_templates/path_to_body.yml)}
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: ""
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:DeleteItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
 
 resources:
   Resources:

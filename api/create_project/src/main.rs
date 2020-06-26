@@ -7,12 +7,12 @@ use dynomite::{
 use common::project::Project;
 use lambda::handler_fn;
 use log::debug;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::env::var;
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
-#[derive(Deserialize, Serialize, Debug, Clone, Default)]
+#[derive(Deserialize, Debug, Clone, Default)]
 struct CreateNewProjectRequest {
     #[serde(rename = "projectId")]
     project_id: String,

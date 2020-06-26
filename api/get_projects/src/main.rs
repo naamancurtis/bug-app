@@ -21,7 +21,7 @@ async fn main() -> Result<(), Error> {
 }
 
 async fn get_projects(r: Value) -> Result<Vec<Project>, Error> {
-    debug!("Request: {:?}", r);
+    debug!("Request for all projects: {:?}", r);
     let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
 
     let result = db_client
