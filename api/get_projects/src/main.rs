@@ -1,7 +1,7 @@
 use common::project::Project;
 use dynomite::{
     dynamodb::{DynamoDb, DynamoDbClient, ScanInput},
-    retry::Policy,
+    retry::{Policy, RetryingDynamoDb},
     FromAttributes, Retries,
 };
 use lambda::handler_fn;
@@ -13,19 +13,21 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     simple_logger::init_by_env();
+    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
 
-    let func = handler_fn(get_projects);
+    let func = handler_fn(move |request: Value| get_projects(request, db_client.clone()));
     lambda::run(func).await?;
 
     Ok(())
 }
 
-async fn get_projects(r: Value) -> Result<Vec<Project>, Error> {
+async fn get_projects(
+    r: Value,
+    db_client: RetryingDynamoDb<DynamoDbClient>,
+) -> Result<Vec<Project>, Error> {
     debug!("Request for all projects: {:?}", r);
-    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
 
     let result = db_client
-        .clone()
         .scan(ScanInput {
             table_name: std::env::var("BUG_APP_DYNAMO_TABLE")?,
             ..ScanInput::default()

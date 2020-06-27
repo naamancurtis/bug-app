@@ -1,6 +1,6 @@
 use dynomite::{
     dynamodb::{AttributeValue, DynamoDb, DynamoDbClient, UpdateItemInput},
-    retry::Policy,
+    retry::{Policy, RetryingDynamoDb},
     Attributes, FromAttributes, Item, Retries,
 };
 
@@ -30,14 +30,18 @@ enum UpdateProject {
 async fn main() -> Result<(), Error> {
     simple_logger::init_by_env();
 
-    let func = handler_fn(update_project);
+    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
+    let func =
+        handler_fn(move |request: UpdateProjectRequest| update_project(request, db_client.clone()));
     lambda::run(func).await?;
 
     Ok(())
 }
 
-async fn update_project(request: UpdateProjectRequest) -> Result<Project, Error> {
-    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
+async fn update_project(
+    request: UpdateProjectRequest,
+    db_client: RetryingDynamoDb<DynamoDbClient>,
+) -> Result<Project, Error> {
     debug!("Request: {:?}", request);
 
     let project_key = ProjectIdentifierWrapper::new(request.project_id.clone());

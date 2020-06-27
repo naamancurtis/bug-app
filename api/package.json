@@ -2,8 +2,8 @@
   "name": "bug_app",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Naaman <naaman.the.dev@gmail.com>",
-  "license": "MIT",
+  "author": "Naaman Curtis <naaman.the.dev@gmail.com>",
+  "license": "None",
   "devDependencies": {
     "serverless-iam-roles-per-function": "^2.0.2",
     "serverless-rust": "^0.3.8"

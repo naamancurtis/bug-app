@@ -1,6 +1,6 @@
 use dynomite::{
     dynamodb::{DynamoDb, DynamoDbClient, GetItemInput, PutItemInput},
-    retry::Policy,
+    retry::{Policy, RetryingDynamoDb},
     FromAttributes, Item, Retries,
 };
 
@@ -28,16 +28,21 @@ impl From<CreateNewProjectRequest> for Project {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     simple_logger::init_by_env();
+    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
 
-    let func = handler_fn(create_project);
+    let func = handler_fn(move |request: CreateNewProjectRequest| {
+        create_project(request, db_client.clone())
+    });
     lambda::run(func).await?;
 
     Ok(())
 }
 
-async fn create_project(request: CreateNewProjectRequest) -> Result<Project, Error> {
+async fn create_project(
+    request: CreateNewProjectRequest,
+    db_client: RetryingDynamoDb<DynamoDbClient>,
+) -> Result<Project, Error> {
     debug!("Request: {:?}", request);
-    let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
 
     let project: Project = request.into();
     let key = project.key();
@@ -53,8 +58,6 @@ async fn create_project(request: CreateNewProjectRequest) -> Result<Project, Err
         .await?;
 
     debug!("Creation result: {:?}", creation_result);
-
-    debug!("Key for GetItem(), {:?}", key);
 
     let result = db_client
         .get_item(GetItemInput {

@@ -1,3 +1,4 @@
+#![allow(non_snake_case)] // Seems to be an error with the Item derive on dynamite
 use dynomite::Item;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
