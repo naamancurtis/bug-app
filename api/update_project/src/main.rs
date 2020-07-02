@@ -42,7 +42,7 @@ async fn update_project(
     request: UpdateProjectRequest,
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<Project, Error> {
-    debug!("Request: {:?}", request);
+    debug!("[Project: Update] Request: {:?}", request);
 
     let project_key = ProjectIdentifierWrapper::new(request.project_id.clone());
 
@@ -59,7 +59,7 @@ async fn update_project(
     match request.update {
         UpdateProject::AddProjectMember(member) => {
             info!(
-                "Adding Member: {} to Project {}",
+                "[Project: Update] Adding Member: {} to Project {}",
                 member, project_key.project_id
             );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
@@ -73,7 +73,7 @@ async fn update_project(
         }
         UpdateProject::RemoveProjectMember(member) => {
             info!(
-                "Deleting Member: {} from Project {}",
+                "[Project: Update] Deleting Member: {} from Project {}",
                 member, project_key.project_id
             );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
@@ -95,9 +95,14 @@ async fn update_project(
         dynamo_db_update.expression_attribute_values = Some(expression_attribute_values);
     }
 
+    debug!(
+        "[Project: Update] Built Update Request {:?}",
+        dynamo_db_update
+    );
+
     let result = db_client.update_item(dynamo_db_update).await?;
 
-    debug!("Result: {:?}", result);
+    debug!("[Project: Update] UpdateItem Result: {:?}", result);
 
     match result.attributes {
         Some(update) => Ok(Project::from_attrs(update)?),

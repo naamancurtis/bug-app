@@ -161,20 +161,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bug"
-version = "0.1.0"
-dependencies = [
- "lambda_http",
- "lambda_runtime",
- "log",
- "serde",
- "serde_derive",
- "serde_json",
- "simple_logger",
- "uuid",
-]
-
-[[package]]
 name = "bumpalo"
 version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -289,6 +275,22 @@ name = "core-foundation-sys"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3a71ab494c0b5b860bdc8407ae08978052417070c2ced38573a9157ad75b8ac"
+
+[[package]]
+name = "create_bug"
+version = "0.1.0"
+dependencies = [
+ "common",
+ "dynomite",
+ "lambda",
+ "log",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "simple_logger",
+ "tokio 0.2.21",
+ "uuid",
+]
 
 [[package]]
 name = "create_project"

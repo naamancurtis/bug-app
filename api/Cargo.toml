@@ -6,5 +6,5 @@ members = [
 	"create_project",  
 	"update_project",
 	"delete_project",
-	"bugs"	
+	"create_bug"	
 ]

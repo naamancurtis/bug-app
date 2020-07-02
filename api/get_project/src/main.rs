@@ -5,7 +5,7 @@ use dynomite::{
     FromAttributes, Item, Retries,
 };
 use lambda::handler_fn;
-use log::debug;
+use log::{debug, info};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -33,7 +33,7 @@ async fn get_project(
     request: GetProjectRequest,
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<Project, Error> {
-    debug!("Request to get project: {:?}", request);
+    info!("[Project: Get] Request to get project: {:?}", request);
     let key = ProjectIdentifierWrapper::new(request.project_id.clone());
 
     let result = db_client
@@ -44,7 +44,10 @@ async fn get_project(
         })
         .await?;
 
-    debug!("Made request to database, received: {:?}", result);
+    debug!(
+        "[Project: Get] Made request to database, received: {:?}",
+        result
+    );
 
     match result.item {
         Some(project) => Ok(Project::from_attrs(project)?),

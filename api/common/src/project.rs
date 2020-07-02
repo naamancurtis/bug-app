@@ -1,17 +1,16 @@
-#![allow(non_snake_case)] // Seems to be an error with the Item derive on dynamite
 use dynomite::Item;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
 #[derive(Deserialize, Serialize, Debug, Clone, Default, Item)]
 pub struct Project {
-    #[dynomite(partition_key)]
-    #[dynomite(rename = "projectId")]
     #[serde(rename = "projectId")]
+    #[dynomite(rename = "projectId")]
+    #[dynomite(partition_key)]
     pub project_id: String,
-    #[dynomite(sort_key)]
-    #[dynomite(rename = "bugId")]
     #[serde(rename = "bugId")]
+    #[dynomite(rename = "bugId")]
+    #[dynomite(sort_key)]
     pub bug_id: u32,
     pub name: String,
     pub members: HashSet<String>,
@@ -34,13 +33,13 @@ impl Project {
 
 #[derive(Deserialize, Serialize, Debug, Clone, Default, Item)]
 pub struct ProjectIdentifierWrapper {
-    #[dynomite(partition_key)]
     #[dynomite(rename = "projectId")]
+    #[dynomite(partition_key)]
     #[serde(rename = "projectId")]
     pub project_id: String,
-    #[dynomite(sort_key)]
     #[dynomite(rename = "bugId")]
     #[serde(rename = "bugId")]
+    #[dynomite(sort_key)]
     pub bug_id: u32,
 }
 

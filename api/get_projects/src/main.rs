@@ -5,7 +5,7 @@ use dynomite::{
     FromAttributes, Retries,
 };
 use lambda::handler_fn;
-use log::debug;
+use log::{debug, info};
 use serde_json::Value;
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
@@ -25,7 +25,7 @@ async fn get_projects(
     r: Value,
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<Vec<Project>, Error> {
-    debug!("Request for all projects: {:?}", r);
+    info!("[Projects: Get] Request for all projects: {:?}", r);
 
     let result = db_client
         .scan(ScanInput {
@@ -34,7 +34,10 @@ async fn get_projects(
         })
         .await?;
 
-    debug!("Made request to database, received: {:?}", result);
+    debug!(
+        "[Projects: Get] Made request to database, received: {:?}",
+        result
+    );
 
     if result.items.is_some() {
         let projects: Vec<Project> = result
@@ -44,7 +47,7 @@ async fn get_projects(
             .flat_map(Project::from_attrs)
             .collect();
 
-        debug!("Returning projects: {:?}", projects);
+        debug!("[Projects: Get] Returning projects: {:?}", projects);
 
         return Ok(projects);
     }

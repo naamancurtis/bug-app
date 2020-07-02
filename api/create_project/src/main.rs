@@ -6,7 +6,7 @@ use dynomite::{
 
 use common::project::Project;
 use lambda::handler_fn;
-use log::debug;
+use log::{debug, info};
 use serde::Deserialize;
 use std::env::var;
 
@@ -42,7 +42,7 @@ async fn create_project(
     request: CreateNewProjectRequest,
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<Project, Error> {
-    debug!("Request: {:?}", request);
+    info!("[Project: Create] Request: {:?}", request);
 
     let project: Project = request.into();
     let key = project.key();
@@ -57,7 +57,7 @@ async fn create_project(
         })
         .await?;
 
-    debug!("Creation result: {:?}", creation_result);
+    debug!("[Project: Create] Creation result: {:?}", creation_result);
 
     let result = db_client
         .get_item(GetItemInput {
@@ -67,7 +67,7 @@ async fn create_project(
         })
         .await?;
 
-    debug!("Get result: {:?}", result);
+    info!("[Project: Create] GetItem result: {:?}", result);
 
     match result.item {
         Some(new_project) => Ok(Project::from_attrs(new_project)?),

@@ -6,7 +6,7 @@ use dynomite::{
 
 use common::project::ProjectIdentifierWrapper;
 use lambda::handler_fn;
-use log::{debug, info};
+use log::info;
 use serde::Deserialize;
 use std::env::var;
 
@@ -35,9 +35,7 @@ async fn delete_project(
     request: DeleteProjectRequest,
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<(), Error> {
-    debug!("Request: {:?}", request);
-
-    info!("Request to delete Project {:?}", request.project_id);
+    info!("[Projects: Delete] Request to delete Project {:?}", request);
 
     let key = ProjectIdentifierWrapper::new(request.project_id);
 
@@ -51,7 +49,7 @@ async fn delete_project(
         })
         .await?;
 
-    info!("Deletion result: {:?}", result);
+    info!("[Projects: Delete] Deletion result: {:?}", result);
 
     Ok(())
 }

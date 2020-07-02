@@ -153,6 +153,34 @@ functions:
             - BugTable
             - Arn
 
+  create_bug:
+    handler: create_bug
+    events:
+      - http:
+          path: /projects/{projectId}/create-bug
+          method: post
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: $input.json('$')
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.path('$')
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
 resources:
   Resources:
     BugTable:
