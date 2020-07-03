@@ -14,14 +14,13 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
 #[derive(Deserialize, Debug, Clone, Default)]
 struct CreateNewProjectRequest {
-    #[serde(rename = "projectId")]
-    project_id: String,
+    id: String,
     name: String,
 }
 
 impl From<CreateNewProjectRequest> for Project {
     fn from(p: CreateNewProjectRequest) -> Project {
-        Project::new(p.project_id, p.name)
+        Project::new(p.id, p.name)
     }
 }
 

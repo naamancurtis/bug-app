@@ -15,8 +15,7 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
 #[derive(Deserialize, Debug, Clone)]
 struct UpdateProjectRequest {
-    #[serde(rename = "projectId")]
-    project_id: String,
+    id: String,
     update: UpdateProject,
 }
 
@@ -44,7 +43,7 @@ async fn update_project(
 ) -> Result<Project, Error> {
     debug!("[Project: Update] Request: {:?}", request);
 
-    let project_key = ProjectIdentifierWrapper::new(request.project_id.clone());
+    let project_key = ProjectIdentifierWrapper::new(request.id.clone());
 
     let mut dynamo_db_update = UpdateItemInput {
         table_name: var("BUG_APP_DYNAMO_TABLE")?,
@@ -60,7 +59,7 @@ async fn update_project(
         UpdateProject::AddProjectMember(member) => {
             info!(
                 "[Project: Update] Adding Member: {} to Project {}",
-                member, project_key.project_id
+                member, project_key.id
             );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
 
@@ -74,7 +73,7 @@ async fn update_project(
         UpdateProject::RemoveProjectMember(member) => {
             info!(
                 "[Project: Update] Deleting Member: {} from Project {}",
-                member, project_key.project_id
+                member, project_key.id
             );
             expression_attribute_names.insert("#members".to_string(), "members".to_string());
 

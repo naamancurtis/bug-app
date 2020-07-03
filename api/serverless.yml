@@ -1,7 +1,8 @@
 service: bug-app
 
 custom:
-  BUG_APP_DYNAMO_TABLE: bug-app-table
+  BUG_APP_PROJECT_TABLE: bug-app-project
+  BUG_APP_BUG_TABLE: bug-app-bug
   RUST_LOG: debug
 
 provider:
@@ -41,7 +42,7 @@ functions:
           - dynamodb:Scan
         Resource:
           Fn::GetAtt:
-            - BugTable
+            - ProjectTable
             - Arn
 
   create_project:
@@ -69,7 +70,7 @@ functions:
           - dynamodb:GetItem
         Resource:
           Fn::GetAtt:
-            - BugTable
+            - ProjectTable
             - Arn
 
   get_project:
@@ -96,7 +97,7 @@ functions:
           - dynamodb:GetItem
         Resource:
           Fn::GetAtt:
-            - BugTable
+            - ProjectTable
             - Arn
 
   update_project:
@@ -123,7 +124,7 @@ functions:
           - dynamodb:UpdateItem
         Resource:
           Fn::GetAtt:
-            - BugTable
+            - ProjectTable
             - Arn
 
   delete_project:
@@ -150,7 +151,7 @@ functions:
           - dynamodb:DeleteItem
         Resource:
           Fn::GetAtt:
-            - BugTable
+            - ProjectTable
             - Arn
 
   create_bug:
@@ -164,7 +165,7 @@ functions:
           request:
             passThrough: WHEN_NO_TEMPLATES
             template:
-              application/json: $input.json('$')
+              application/json: ${file(body_mapping_templates/create_bug.vtl)}
               application/x-www-form-urlencoded: ""
           response:
             passThrough: WHEN_NO_TEMPLATES
@@ -183,15 +184,29 @@ functions:
 
 resources:
   Resources:
+    ProjectTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        TableName: ${self:custom.BUG_APP_PROJECT_TABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
     BugTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
-        TableName: ${self:custom.BUG_APP_DYNAMO_TABLE}
+        TableName: ${self:custom.BUG_APP_BUG_TABLE}
         AttributeDefinitions:
           - AttributeName: projectId
             AttributeType: S
           - AttributeName: bugId
-            AttributeType: N
+            AttributeType: S
         KeySchema:
           - AttributeName: projectId
             KeyType: HASH
@@ -200,4 +215,3 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-

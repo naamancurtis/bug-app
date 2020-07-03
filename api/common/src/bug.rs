@@ -2,6 +2,7 @@ use crate::priority::Priority;
 use crate::status::Status;
 use dynomite::Item;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Deserialize, Serialize, Debug, Clone, Default, Item)]
 pub struct Bug {
@@ -9,10 +10,8 @@ pub struct Bug {
     #[dynomite(rename = "projectId")]
     #[dynomite(partition_key)]
     pub project_id: String,
-    #[serde(rename = "bugId")]
-    #[dynomite(rename = "bugId")]
     #[dynomite(sort_key)]
-    pub bugId: u32,
+    pub id: Uuid,
     pub name: String,
     pub description: String,
     pub priority: Priority,

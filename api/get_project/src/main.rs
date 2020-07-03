@@ -10,8 +10,7 @@ use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 struct GetProjectRequest {
-    #[serde(rename = "projectId")]
-    project_id: String,
+    id: String,
 }
 
 type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
@@ -20,7 +19,6 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 async fn main() -> Result<(), Error> {
     simple_logger::init_by_env();
 
-    // let func = handler_fn(get_project);
     let db_client = DynamoDbClient::new(Default::default()).with_retries(Policy::default());
     let func =
         handler_fn(move |request: GetProjectRequest| get_project(request, db_client.clone()));
@@ -34,11 +32,11 @@ async fn get_project(
     db_client: RetryingDynamoDb<DynamoDbClient>,
 ) -> Result<Project, Error> {
     info!("[Project: Get] Request to get project: {:?}", request);
-    let key = ProjectIdentifierWrapper::new(request.project_id.clone());
+    let key = ProjectIdentifierWrapper::new(request.id.clone());
 
     let result = db_client
         .get_item(GetItemInput {
-            table_name: std::env::var("BUG_APP_DYNAMO_TABLE")?,
+            table_name: std::env::var("BUG_APP_PROJECT_TABLE")?,
             key: key.key(),
             ..GetItemInput::default()
         })
