@@ -14,7 +14,7 @@ type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 
 #[derive(Deserialize, Debug, Clone, Default)]
 struct DeleteProjectRequest {
-    id: String,
+    project_id: String,
 }
 
 #[tokio::main]
@@ -36,7 +36,7 @@ async fn delete_project(
 ) -> Result<(), Error> {
     info!("[Projects: Delete] Request to delete Project {:?}", request);
 
-    let key = ProjectIdentifierWrapper::new(request.id);
+    let key = ProjectIdentifierWrapper::new(request.project_id);
 
     let table_name = var("BUG_APP_PROJECT_TABLE")?;
 

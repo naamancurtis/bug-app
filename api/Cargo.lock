@@ -689,6 +689,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "get_bugs"
+version = "0.1.0"
+dependencies = [
+ "common",
+ "dynomite",
+ "http 0.2.1",
+ "lambda",
+ "lambda_http",
+ "log",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "simple_logger",
+ "tokio 0.2.21",
+ "uuid",
+]
+
+[[package]]
 name = "get_project"
 version = "0.1.0"
 dependencies = [

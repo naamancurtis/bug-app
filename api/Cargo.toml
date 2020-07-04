@@ -1,10 +1,11 @@
 [workspace]
 members = [
-	"common", 
-	"get_projects", 
-	"get_project",
-	"create_project",  
-	"update_project",
-	"delete_project",
-	"create_bug"	
+"common", 
+"get_projects", 
+"get_project",
+"create_project",  
+"update_project",
+"delete_project",
+"get_bugs",
+"create_bug"
 ]

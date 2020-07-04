@@ -154,6 +154,33 @@ functions:
             - ProjectTable
             - Arn
 
+  get_bugs:
+    handler: get_bugs
+    events:
+      - http:
+          path: /projects/{projectId}/bugs
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: ${file(body_mapping_templates/project-id-path-to-body.vtl)}
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.json('$')
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:Query
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
   create_bug:
     handler: create_bug
     events:
