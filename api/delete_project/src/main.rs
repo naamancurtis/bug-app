@@ -38,7 +38,7 @@ async fn delete_project(
 
     let key = ProjectIdentifierWrapper::new(request.id);
 
-    let table_name = var("BUG_APP_DYNAMO_TABLE")?;
+    let table_name = var("BUG_APP_PROJECT_TABLE")?;
 
     let result = db_client
         .delete_item(DeleteItemInput {

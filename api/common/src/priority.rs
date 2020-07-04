@@ -19,7 +19,12 @@ impl Default for Priority {
 
 impl fmt::Display for Priority {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self)
+        match *self {
+            Priority::Critical => write!(f, "Critical"),
+            Priority::High => write!(f, "High"),
+            Priority::Medium => write!(f, "Medium"),
+            Priority::Low => write!(f, "Low"),
+        }
     }
 }
 
@@ -27,11 +32,11 @@ impl FromStr for Priority {
     type Err = AttributeError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "Critical" => Ok(Priority::Critical),
-            "High" => Ok(Priority::High),
-            "Medium" => Ok(Priority::Medium),
-            "Low" => Ok(Priority::Low),
+        match s.to_lowercase().as_str() {
+            "critical" => Ok(Priority::Critical),
+            "high" => Ok(Priority::High),
+            "medium" => Ok(Priority::Medium),
+            "low" => Ok(Priority::Low),
             _ => Err(AttributeError::InvalidType),
         }
     }
@@ -46,8 +51,8 @@ impl Attribute for Priority {
     }
 
     fn from_attr(value: AttributeValue) -> Result<Self, AttributeError> {
-        if let Some(status_string) = value.s {
-            return Ok(Priority::from_str(status_string.as_str())?);
+        if let Some(priority) = value.s {
+            return Ok(Priority::from_str(priority.as_str())?);
         }
         Err(AttributeError::InvalidType)
     }

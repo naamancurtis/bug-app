@@ -1,6 +1,7 @@
 use dynomite::{dynamodb::AttributeValue, error::AttributeError, Attribute};
 use serde::{Deserialize, Serialize};
 use std::fmt;
+use std::str;
 use std::str::FromStr;
 
 #[derive(Deserialize, Serialize, Debug, Clone, Copy)]
@@ -21,21 +22,28 @@ impl Default for Status {
 
 impl fmt::Display for Status {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self)
+        match *self {
+            Status::Todo => write!(f, "Todo"),
+            Status::InProgress => write!(f, "InProgress"),
+            Status::InReview => write!(f, "InReview"),
+            Status::ReadyToDeploy => write!(f, "ReadyToDeploy"),
+            Status::Deployed => write!(f, "Deployed"),
+            Status::Done => write!(f, "Done"),
+        }
     }
 }
 
-impl FromStr for Status {
+impl str::FromStr for Status {
     type Err = AttributeError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
-            "Todo" => Ok(Status::Todo),
-            "InProgress" => Ok(Status::InProgress),
-            "InReview" => Ok(Status::InReview),
-            "ReadyToDeploy" => Ok(Status::ReadyToDeploy),
-            "Deployed" => Ok(Status::Deployed),
-            "Done" => Ok(Status::Done),
+        match s.to_lowercase().as_str() {
+            "todo" => Ok(Status::Todo),
+            "inprogress" => Ok(Status::InProgress),
+            "inreview" => Ok(Status::InReview),
+            "readytodeploy" => Ok(Status::ReadyToDeploy),
+            "deployed" => Ok(Status::Deployed),
+            "done" => Ok(Status::Done),
             _ => Err(AttributeError::InvalidType),
         }
     }

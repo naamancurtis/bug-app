@@ -35,7 +35,7 @@ functions:
             passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
-            template: $input.path('$')
+            template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -62,7 +62,7 @@ functions:
             passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
-            template: $input.path('$')
+            template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -90,7 +90,7 @@ functions:
             passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
-            template: $input.path('$')
+            template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -117,7 +117,7 @@ functions:
             passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
-            template: $input.path('$')
+            template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -171,7 +171,7 @@ functions:
             passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
-            template: $input.path('$')
+            template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
         Action:
@@ -205,12 +205,12 @@ resources:
         AttributeDefinitions:
           - AttributeName: projectId
             AttributeType: S
-          - AttributeName: bugId
+          - AttributeName: id
             AttributeType: S
         KeySchema:
           - AttributeName: projectId
             KeyType: HASH
-          - AttributeName: bugId
+          - AttributeName: id
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1

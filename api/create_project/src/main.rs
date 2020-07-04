@@ -45,7 +45,7 @@ async fn create_project(
 
     let project: Project = request.into();
     let key = project.key();
-    let table_name = var("BUG_APP_DYNAMO_TABLE")?;
+    let table_name = var("BUG_APP_PROJECT_TABLE")?;
 
     let creation_result = db_client
         .clone()

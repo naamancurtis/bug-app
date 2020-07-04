@@ -46,7 +46,7 @@ async fn update_project(
     let project_key = ProjectIdentifierWrapper::new(request.id.clone());
 
     let mut dynamo_db_update = UpdateItemInput {
-        table_name: var("BUG_APP_DYNAMO_TABLE")?,
+        table_name: var("BUG_APP_PROJECT_TABLE")?,
         key: project_key.key(),
         return_values: Some("ALL_NEW".to_string()),
         ..UpdateItemInput::default()

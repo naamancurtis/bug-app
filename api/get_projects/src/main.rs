@@ -29,7 +29,7 @@ async fn get_projects(
 
     let result = db_client
         .scan(ScanInput {
-            table_name: std::env::var("BUG_APP_DYNAMO_TABLE")?,
+            table_name: std::env::var("BUG_APP_PROJECT_TABLE")?,
             ..ScanInput::default()
         })
         .await?;
