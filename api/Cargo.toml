@@ -9,5 +9,6 @@ members = [
 "get_bugs",
 "get_bug",
 "create_bug",
+"update_bug",
 "delete_bug"
 ]

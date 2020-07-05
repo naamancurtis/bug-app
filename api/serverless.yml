@@ -236,6 +236,34 @@ functions:
             - BugTable
             - Arn
 
+  update_bug:
+    handler: update_bug
+    events:
+      - http:
+          path: /projects/{projectId}/{bugId}
+          method: put
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: ${file(body_mapping_templates/update_bug.vtl)}
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: ""
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:UpdateItem
+          - dynamodb:PutItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
   delete_bug:
     handler: delete_bug
     events:
