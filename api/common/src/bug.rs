@@ -17,3 +17,22 @@ pub struct Bug {
     pub priority: Priority,
     pub status: Status,
 }
+
+#[derive(Deserialize, Serialize, Debug, Clone, Default, Item)]
+pub struct BugIdentifierWrapper {
+    #[serde(rename = "projectId")]
+    #[dynomite(rename = "projectId")]
+    #[dynomite(partition_key)]
+    pub project_id: String,
+    #[dynomite(sort_key)]
+    pub id: Uuid,
+}
+
+impl BugIdentifierWrapper {
+    pub fn new(project_id: String, bug_id: Uuid) -> Self {
+        Self {
+            project_id,
+            id: bug_id,
+        }
+    }
+}

@@ -181,6 +181,33 @@ functions:
             - BugTable
             - Arn
 
+  get_bug:
+    handler: get_bug
+    events:
+      - http:
+          path: /projects/{projectId}/{bugId}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: ${file(body_mapping_templates/project-and-bug-ids-to-body.vtl)}
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: $input.json('$')
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:GetItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
   create_bug:
     handler: create_bug
     events:
@@ -204,6 +231,33 @@ functions:
         Action:
           - dynamodb:PutItem
           - dynamodb:GetItem
+        Resource:
+          Fn::GetAtt:
+            - BugTable
+            - Arn
+
+  delete_bug:
+    handler: delete_bug
+    events:
+      - http:
+          path: /projects/{projectId}/{bugId}
+          method: delete
+          cors: true
+          integration: lambda
+          request:
+            passThrough: WHEN_NO_TEMPLATES
+            template:
+              application/json: ${file(body_mapping_templates/project-and-bug-ids-to-body.vtl)}
+              application/x-www-form-urlencoded: ""
+          response:
+            passThrough: WHEN_NO_TEMPLATES
+            headers:
+              Content-Type: integration.response.header.Content-Type
+            template: ""
+    iamRoleStatements:
+      - Effect: "Allow"
+        Action:
+          - dynamodb:DeleteItem
         Resource:
           Fn::GetAtt:
             - BugTable
