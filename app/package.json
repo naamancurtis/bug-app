@@ -2,6 +2,7 @@
   "name": "bug-app-web",
   "version": "0.1.0",
   "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -33,11 +34,11 @@
     "extends": "react-app"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx,ts,tsx}": [
       "yarn lint:eslint:fix",
       "git add --force"
     ],
-    "*.json": [
+    "*": [
       "prettier --write",
       "git add --force"
     ]

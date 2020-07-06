@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Naaman Curtis <naaman.the.dev@gmail.com>",
-  "license": "None",
+  "license": "UNLICENSED",
   "devDependencies": {
     "serverless-iam-roles-per-function": "^2.0.2",
     "serverless-rust": "^0.3.8"
