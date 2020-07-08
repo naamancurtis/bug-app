@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Themes } from '../styles/theme';
 
-export default () => {
+const useDarkMode = () => {
   const [theme, setTheme] = useState('dark');
   const [mountedComponent, setMountedComponent] = useState(false);
 
@@ -36,3 +36,5 @@ export default () => {
     boolean,
   ];
 };
+
+export default useDarkMode;

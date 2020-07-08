@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
-import { Main, Header, Footer, Wrapper } from './layout.styles';
+import { Main, SideBar, Footer, Wrapper } from './layout.styles';
 
 type Props = {
-  header: React.ReactNode;
+  sidebar: React.ReactNode;
   footer: React.ReactNode;
   children: React.ReactNode;
 };
 
-const Layout: FC<Props> = ({ header, footer, children }) => {
+const Layout: FC<Props> = ({ sidebar, footer, children }) => {
   return (
     <Wrapper>
-      <Header>{header}</Header>
+      <SideBar>{sidebar}</SideBar>
       <Main>{children}</Main>
       <Footer>{footer}</Footer>
     </Wrapper>
