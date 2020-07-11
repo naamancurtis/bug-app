@@ -9,7 +9,8 @@ export const Main = styled.main``;
 
 export const SideBar = styled.header`
   height: 100%;
-  width: 275px;
+  min-width: 250px;
+  width: 15%;
 `;
 
 export const Footer = styled.footer``;

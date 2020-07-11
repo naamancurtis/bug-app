@@ -4,11 +4,12 @@ import GlobalStyles from './styles/global-styles';
 import { Themes, darkTheme, lightTheme } from './styles/theme';
 import { ThemeProvider } from 'styled-components';
 import Layout from './templates/layout.component';
-import setupFontAwesome from './setup-font-awesome';
 import { Footer } from './templates/layout.styles';
 import SideBar from './organisms/sidebar/sidebar.component';
+import { createBrowserHistory } from 'history';
+import { Router } from 'react-router-dom';
 
-setupFontAwesome();
+const history = createBrowserHistory();
 
 const App = () => {
   const [theme, toggleTheme, mountedComponent] = useDarkMode();
@@ -19,7 +20,11 @@ const App = () => {
   return (
     <ThemeProvider theme={themeMode}>
       <GlobalStyles />
-      <Layout sidebar={<SideBar />} footer={<Footer />} children={<div />} />
+      <Router history={history}>
+        <SideBar />
+        <Layout children={<div />} />
+      </Router>
+      <Footer />
     </ThemeProvider>
   );
 };

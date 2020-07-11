@@ -18,7 +18,11 @@ export type Theme = {
   body: string;
   text: string;
 
-  header: string;
+  sidebar: string;
+  sidebarText: string;
+
+  primaryButton: string;
+  primaryButtonText: string;
 
   error: string;
   success: string;
@@ -28,24 +32,34 @@ export const lightTheme: Theme = {
   fonts: { ...themeFonts },
 
   theme: Themes.LIGHT,
-  body: '#F9F9F9',
+  body: '#F8F9FA',
   text: '#292F36',
 
-  header: 'blue',
+  sidebar: '#494C9B',
+  sidebarText: '#90F6A1',
+
+  primaryButton: '#494C9B',
+
+  // primaryButton: '#DAD4F7',
+  primaryButtonText: '#F8F9FA',
+  // primaryButtonText: '#2C3F55',
 
   error: '',
   success: '',
 };
 
-export const darkTheme: Theme = {
-  fonts: { ...themeFonts },
+export const darkTheme = lightTheme;
 
-  theme: Themes.DARK,
-  body: '',
-  text: '',
+// export const darkTheme: Theme = {
+//   fonts: { ...themeFonts },
 
-  header: 'blue',
+//   theme: Themes.DARK,
+//   body: '',
+//   text: '',
 
-  error: '',
-  success: '',
-};
+//   header: 'blue',
+//   headerText: '',
+
+//   error: '',
+//   success: '',
+// };

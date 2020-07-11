@@ -4,9 +4,6 @@
   "private": true,
   "license": "UNLICENSED",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.29",
-    "@fortawesome/free-solid-svg-icons": "^5.13.1",
-    "@fortawesome/react-fontawesome": "^0.1.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -16,6 +13,8 @@
     "@types/react-dom": "^16.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
     "typescript": "~3.7.2"
@@ -29,7 +28,7 @@
     "lint:css": "stylelint app/**/*.js",
     "lint:eslint": "eslint --ignore-path .gitignore",
     "lint:eslint:fix": "eslint --ignore-path .gitignore --fix",
-    "lint:js": "yarn lint:eslint -- . ",
+    "lint:js": "yarn lint:eslint ./src/** ",
     "lint:staged": "lint-staged",
     "prettify": "prettier --write"
   },
@@ -60,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",

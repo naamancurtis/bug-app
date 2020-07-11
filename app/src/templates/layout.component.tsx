@@ -1,18 +1,20 @@
 import React, { FC } from 'react';
-import { Main, SideBar, Footer, Wrapper } from './layout.styles';
+import { Main, Wrapper, Footer } from './layout.styles';
+import { Switch, Route } from 'react-router-dom';
 
 type Props = {
-  sidebar: React.ReactNode;
-  footer: React.ReactNode;
   children: React.ReactNode;
 };
 
-const Layout: FC<Props> = ({ sidebar, footer, children }) => {
+const Layout: FC<Props> = ({ children }) => {
   return (
     <Wrapper>
-      <SideBar>{sidebar}</SideBar>
-      <Main>{children}</Main>
-      <Footer>{footer}</Footer>
+      <Switch>
+        <Route path="/">
+          <Main>{children}</Main>
+        </Route>
+      </Switch>
+      <Footer />
     </Wrapper>
   );
 };
