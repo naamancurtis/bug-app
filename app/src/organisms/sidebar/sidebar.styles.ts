@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const SideBarWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
   height: 100%;
   max-width: 15%;
   min-width: 250px;

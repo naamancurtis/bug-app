@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { GoProject, GoRepo } from 'react-icons/go';
 import { AiFillBug } from 'react-icons/ai';
+import Projects from '../pages/projects/projects.component';
 
 export type Route = {
   path: string;
@@ -17,7 +18,7 @@ const routes: Route[] = [
     exact: true,
     displayText: 'My Projects',
     icon: <GoRepo />,
-    component: () => <div>Projects</div>,
+    component: () => <Projects />,
     displayInMenu: true,
   },
   {

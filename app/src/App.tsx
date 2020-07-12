@@ -7,6 +7,7 @@ import Layout from './templates/layout.component';
 import SideBar from './organisms/sidebar/sidebar.component';
 import { BrowserRouter } from 'react-router-dom';
 import { AppWrapper } from './app.styles';
+import { RecoilRoot } from 'recoil';
 
 const App = () => {
   const [theme, toggleTheme, mountedComponent] = useDarkMode();
@@ -18,10 +19,12 @@ const App = () => {
     <ThemeProvider theme={themeMode}>
       <GlobalStyles />
       <BrowserRouter>
-        <AppWrapper>
-          <SideBar />
-          <Layout children={<div />} />
-        </AppWrapper>
+        <RecoilRoot>
+          <AppWrapper>
+            <SideBar />
+            <Layout children={<div />} />
+          </AppWrapper>
+        </RecoilRoot>
       </BrowserRouter>
     </ThemeProvider>
   );

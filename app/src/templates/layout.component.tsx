@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Wrapper, Footer } from './layout.styles';
+import { Footer, Wrapper } from './layout.styles';
 import { Switch, Route } from 'react-router-dom';
 
 import routes from '../data/routes';

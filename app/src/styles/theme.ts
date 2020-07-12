@@ -21,8 +21,7 @@ export type Theme = {
   sidebar: string;
   sidebarText: string;
 
-  primaryButton: string;
-  primaryButtonText: string;
+  primaryAccent: string;
 
   error: string;
   success: string;
@@ -38,11 +37,7 @@ export const lightTheme: Theme = {
   sidebar: '#494C9B',
   sidebarText: '#90F6A1',
 
-  primaryButton: '#494C9B',
-
-  // primaryButton: '#DAD4F7',
-  primaryButtonText: '#F8F9FA',
-  // primaryButtonText: '#2C3F55',
+  primaryAccent: '#494C9B',
 
   error: '',
   success: '',

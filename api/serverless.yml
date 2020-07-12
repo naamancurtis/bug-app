@@ -32,9 +32,9 @@ functions:
               application/json: ""
               application/x-www-form-urlencoded: ""
           response:
-            passThrough: WHEN_NO_TEMPLATES
             headers:
               Content-Type: integration.response.header.Content-Type
+              Access-Control-Allow-Origin: "'*'"
             template: $input.json('$')
     iamRoleStatements:
       - Effect: "Allow"
