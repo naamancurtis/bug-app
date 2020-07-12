@@ -4,12 +4,9 @@ import GlobalStyles from './styles/global-styles';
 import { Themes, darkTheme, lightTheme } from './styles/theme';
 import { ThemeProvider } from 'styled-components';
 import Layout from './templates/layout.component';
-import { Footer } from './templates/layout.styles';
 import SideBar from './organisms/sidebar/sidebar.component';
-import { createBrowserHistory } from 'history';
-import { Router } from 'react-router-dom';
-
-const history = createBrowserHistory();
+import { BrowserRouter } from 'react-router-dom';
+import { AppWrapper } from './app.styles';
 
 const App = () => {
   const [theme, toggleTheme, mountedComponent] = useDarkMode();
@@ -20,11 +17,12 @@ const App = () => {
   return (
     <ThemeProvider theme={themeMode}>
       <GlobalStyles />
-      <Router history={history}>
-        <SideBar />
-        <Layout children={<div />} />
-      </Router>
-      <Footer />
+      <BrowserRouter>
+        <AppWrapper>
+          <SideBar />
+          <Layout children={<div />} />
+        </AppWrapper>
+      </BrowserRouter>
     </ThemeProvider>
   );
 };

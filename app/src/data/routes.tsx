@@ -1,26 +1,48 @@
 import React, { ReactNode } from 'react';
-import { GoProject } from 'react-icons/go';
+import { GoProject, GoRepo } from 'react-icons/go';
 import { AiFillBug } from 'react-icons/ai';
 
 export type Route = {
   path: string;
   exact: boolean;
   displayText: string;
-  icon: ReactNode;
+  component: ReactNode;
+  icon?: ReactNode;
+  displayInMenu?: boolean;
 };
 
 const routes: Route[] = [
   {
-    path: 'projects',
+    path: '/projects',
     exact: true,
-    displayText: 'Projects',
-    icon: <GoProject />,
+    displayText: 'My Projects',
+    icon: <GoRepo />,
+    component: () => <div>Projects</div>,
+    displayInMenu: true,
   },
   {
-    path: 'bugs',
+    path: '/bugs',
     exact: true,
-    displayText: 'Bugs',
+    displayText: 'My Bugs',
     icon: <AiFillBug />,
+    component: () => <div>Bugs</div>,
+    displayInMenu: true,
+  },
+  {
+    path: '/kanban',
+    exact: true,
+    displayText: 'Kanban',
+    icon: <GoProject />,
+    component: () => <div>Kanban</div>,
+    displayInMenu: true,
+  },
+  {
+    path: '',
+    exact: true,
+    displayText: 'Home',
+    icon: <GoRepo />,
+    component: () => <div>Home</div>,
+    displayInMenu: false,
   },
 ];
 

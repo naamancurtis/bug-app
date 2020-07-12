@@ -15,19 +15,21 @@ type Props = {};
 const SideBar: FC<Props> = () => {
   return (
     <SideBarWrapper>
-      <SideBarBrand>
+      <SideBarBrand to="/">
         <AiFillBug style={{ transform: 'rotate(30deg)' }} />
         <BrandText>Bug App </BrandText>
       </SideBarBrand>
       <SideBarMenu>
-        {routes.map((route) => (
-          <SideBarButton
-            key={route.path}
-            to={route.path}
-            text={route.displayText}
-            icon={route.icon}
-          />
-        ))}
+        {routes
+          .filter((route) => route.displayInMenu)
+          .map((route) => (
+            <SideBarButton
+              key={route.path}
+              to={route.path}
+              text={route.displayText}
+              icon={route.icon}
+            />
+          ))}
       </SideBarMenu>
     </SideBarWrapper>
   );

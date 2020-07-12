@@ -60,6 +60,7 @@ export const ButtonLabel = styled.span`
   line-height: 1.6;
   text-transform: uppercase;
   font-size: 1.2em;
+  white-space: nowrap;
 
   ${Link}:hover & {
     color: ${({ theme }) => theme.sidebar};

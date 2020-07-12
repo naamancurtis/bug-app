@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const SideBarWrapper = styled.div`
   height: 100%;
   max-width: 15%;
-  min-width: 230px;
+  min-width: 250px;
 
   width: 100%;
   background-color: ${({ theme }) => theme.sidebar};
@@ -12,13 +13,16 @@ export const SideBarWrapper = styled.div`
   padding: 1em 1.5em;
 `;
 
-export const SideBarBrand = styled.div`
+export const SideBarBrand = styled(Link)`
   font-size: 2rem;
   margin-bottom: 2rem;
   color: ${({ theme }) => theme.sidebarText};
   font-weight: 800;
   display: flex;
+  justify-content: center;
   align-items: center;
+  text-decoration: none;
+  outline: none;
 `;
 
 export const BrandText = styled.span`

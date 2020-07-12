@@ -1,18 +1,23 @@
 import React, { FC } from 'react';
-import { Main, Wrapper, Footer } from './layout.styles';
+import { Wrapper, Footer } from './layout.styles';
 import { Switch, Route } from 'react-router-dom';
 
-type Props = {
-  children: React.ReactNode;
-};
+import routes from '../data/routes';
 
-const Layout: FC<Props> = ({ children }) => {
+type Props = {};
+
+const Layout: FC<Props> = () => {
   return (
     <Wrapper>
       <Switch>
-        <Route path="/">
-          <Main>{children}</Main>
-        </Route>
+        {routes.map((route, _) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            exact={route.exact}
+            children={route.component}
+          />
+        ))}
       </Switch>
       <Footer />
     </Wrapper>
