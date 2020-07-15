@@ -1,14 +1,35 @@
 import React, { FC, useState, useEffect, useRef } from 'react';
-import { FormGroup, FormLabel, FormInput } from './inline-form-input.styles';
+import {
+  FormGroup,
+  FormLabel,
+  FormInput,
+  FormTextArea,
+} from './inline-form-input.styles';
+
+export enum InputTypes {
+  TEXT = 'text',
+  NUMBER = 'number',
+  TEXTAREA = 'textarea',
+}
+
+type FormInputTypes = HTMLInputElement | HTMLTextAreaElement;
 
 type Props = {
   labelText: string;
-  type: string;
+  type: InputTypes;
   formValue: string | number;
+  cols?: number;
+  rows?: number;
 };
 
-const InlineFormComponent: FC<Props> = ({ labelText, formValue, type }) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
+const InlineFormComponent: FC<Props> = ({
+  labelText,
+  formValue,
+  type,
+  cols,
+  rows,
+}) => {
+  const inputRef = useRef<FormInputTypes | null>(null);
   const [isReadOnly, setReadOnly] = useState(true);
   const [value, setValue] = useState(formValue);
 
@@ -17,8 +38,12 @@ const InlineFormComponent: FC<Props> = ({ labelText, formValue, type }) => {
       setValue(formValue);
     }
 
-    // @Todo - Implement clean up to submit a control if it's destroyed
-    // and not disabled
+    // Submit the form control if it was not read only
+    return () => {
+      if (isReadOnly) return;
+      handleOnBlur();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValue]);
 
   const handleOnBlur = () => {
@@ -32,22 +57,35 @@ const InlineFormComponent: FC<Props> = ({ labelText, formValue, type }) => {
     inputRef?.current?.focus();
   };
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<FormInputTypes>) => {
     setValue(e?.target.value);
   };
 
   return (
     <FormGroup onClick={handleOnClick}>
       <FormLabel>{labelText}</FormLabel>
-      <FormInput
-        ref={inputRef}
-        onChange={handleOnChange}
-        onClick={handleOnClick}
-        onBlur={() => handleOnBlur()}
-        readOnly={isReadOnly}
-        value={value}
-        type={type}
-      />
+      {type === InputTypes.TEXTAREA ? (
+        <FormTextArea
+          ref={(instance) => (inputRef.current = instance)}
+          onChange={handleOnChange}
+          onClick={handleOnClick}
+          onBlur={() => handleOnBlur()}
+          readOnly={isReadOnly}
+          value={value}
+          cols={cols}
+          rows={rows || 3}
+        />
+      ) : (
+        <FormInput
+          ref={(instance) => (inputRef.current = instance)}
+          onChange={handleOnChange}
+          onClick={handleOnClick}
+          onBlur={() => handleOnBlur()}
+          readOnly={isReadOnly}
+          value={value}
+          type={type}
+        />
+      )}
     </FormGroup>
   );
 };
