@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { GoProject, GoRepo } from 'react-icons/go';
 import { AiFillBug } from 'react-icons/ai';
 import Projects from '../pages/projects/projects.component';
+import Project from '../pages/project/project.component';
 
 export type Route = {
   path: string;
@@ -13,6 +14,13 @@ export type Route = {
 };
 
 const routes: Route[] = [
+  {
+    path: '/project/:projectId',
+    exact: true,
+    displayText: 'Project',
+    component: () => <Project />,
+    displayInMenu: false,
+  },
   {
     path: '/projects',
     exact: true,

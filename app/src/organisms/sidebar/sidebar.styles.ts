@@ -22,10 +22,10 @@ export const SideBarBrand = styled(Link)`
   color: ${({ theme }) => theme.sidebarText};
   font-weight: 800;
   display: flex;
-  justify-content: center;
   align-items: center;
   text-decoration: none;
   outline: none;
+  padding-left: 0.25em;
 `;
 
 export const BrandText = styled.span`

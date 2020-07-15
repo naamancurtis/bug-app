@@ -6,7 +6,7 @@ import {
   CardDescription,
 } from './project-card.styles';
 import { Project } from '../../models/project';
-import { useHistory, RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   project: Project;
@@ -16,7 +16,7 @@ const ProjectCard: FC<Props> = ({ project }) => {
   const history = useHistory();
 
   const handleClick = () => {
-    history.push(`${history.location.pathname}/${project.id}`);
+    history.push(`project/${project.id}`);
   };
 
   return (
