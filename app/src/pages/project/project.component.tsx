@@ -9,7 +9,8 @@ type Props = {};
 const Project: FC<Props> = () => {
   return (
     <Wrapper>
-      <FormInput labelText={'Hello'} formValue="1" type={InputTypes.TEXT} />
+      <FormInput labelText={'Text'} formValue="1" type={InputTypes.TEXT} />
+      <FormInput labelText={'Select'} formValue="1" type={InputTypes.SELECT} />
       <FormInput
         labelText={'Area'}
         formValue="12345"

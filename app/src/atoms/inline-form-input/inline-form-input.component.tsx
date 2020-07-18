@@ -5,14 +5,19 @@ import {
   FormInput,
   FormTextArea,
 } from './inline-form-input.styles';
+import ReadOnlySelect from '../readonly-select/readonly-select.component';
 
 export enum InputTypes {
   TEXT = 'text',
   NUMBER = 'number',
   TEXTAREA = 'textarea',
+  SELECT = 'select',
 }
 
-type FormInputTypes = HTMLInputElement | HTMLTextAreaElement;
+type FormInputTypes =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement;
 
 type Props = {
   labelText: string;
@@ -63,10 +68,11 @@ const InlineFormComponent: FC<Props> = ({
 
   return (
     <FormGroup onClick={handleOnClick}>
-      <FormLabel>{labelText}</FormLabel>
+      <FormLabel id={labelText}>{labelText}</FormLabel>
       {type === InputTypes.TEXTAREA ? (
         <FormTextArea
           ref={(instance) => (inputRef.current = instance)}
+          aria-labelledby={labelText}
           onChange={handleOnChange}
           onClick={handleOnClick}
           onBlur={() => handleOnBlur()}
@@ -75,9 +81,22 @@ const InlineFormComponent: FC<Props> = ({
           cols={cols}
           rows={rows || 3}
         />
+      ) : type === InputTypes.SELECT ? (
+        <ReadOnlySelect
+          ref={(instance: HTMLSelectElement | null) =>
+            (inputRef.current = instance)
+          }
+          aria-labelledby={labelText}
+          onChange={handleOnChange}
+          onClick={handleOnClick}
+          onBlur={() => handleOnBlur()}
+          isReadOnly={isReadOnly}
+          formValue={value}
+        />
       ) : (
         <FormInput
           ref={(instance) => (inputRef.current = instance)}
+          aria-labelledby={labelText}
           onChange={handleOnChange}
           onClick={handleOnClick}
           onBlur={() => handleOnBlur()}

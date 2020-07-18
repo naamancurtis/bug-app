@@ -1,7 +1,23 @@
 import styled, { css } from 'styled-components';
 import tinycolor from 'tinycolor2';
 
-const baseInputCss = css`
+export const readonlyFormInputStyling = css`
+  cursor: pointer;
+  border-color: transparent;
+
+  &:hover {
+    box-shadow: inset 0 0 3px 1px
+      ${({ theme }) => {
+        const color = tinycolor(theme.primaryAccent)
+          .brighten()
+          .setAlpha(0.75)
+          .toRgbString();
+        return color;
+      }};
+  }
+`;
+
+export const baseFormInputStyling = css`
   padding: 0.5em;
   border-radius: 5px;
   flex-grow: 1;
@@ -15,21 +31,13 @@ const baseInputCss = css`
       const color = tinycolor(theme.body).darken(5).setAlpha(0.3).toRgbString();
       return color;
     }};
+`;
+
+export const combinedFormInputStyling = css`
+  ${baseFormInputStyling};
 
   &:read-only {
-    cursor: pointer;
-    border-color: transparent;
-
-    &:hover {
-      box-shadow: inset 0 0 3px 1px
-        ${({ theme }) => {
-          const color = tinycolor(theme.primaryAccent)
-            .brighten()
-            .setAlpha(0.75)
-            .toRgbString();
-          return color;
-        }};
-    }
+    ${readonlyFormInputStyling};
   }
 `;
 
@@ -49,9 +57,9 @@ export const FormLabel = styled.label`
 `;
 
 export const FormInput = styled.input`
-  ${baseInputCss};
+  ${combinedFormInputStyling};
 `;
 
 export const FormTextArea = styled.textarea`
-  ${baseInputCss};
+  ${combinedFormInputStyling};
 `;
