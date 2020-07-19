@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import tinycolor from 'tinycolor2';
+import Select from 'react-select';
 
 export const readonlyFormInputStyling = css`
   cursor: pointer;
@@ -62,4 +63,30 @@ export const FormInput = styled.input`
 
 export const FormTextArea = styled.textarea`
   ${combinedFormInputStyling};
+`;
+
+export const FormSelect = styled(Select)`
+  flex-grow: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0;
+
+  .select__control {
+    ${baseFormInputStyling};
+    padding: 0;
+
+    &:hover {
+      border-color: ${({ theme }) => theme.primaryAccent};
+    }
+  }
+
+  &.readonly {
+    .select__control {
+      ${readonlyFormInputStyling};
+    }
+  }
+
+  .select__indicator {
+    cursor: pointer;
+  }
 `;
