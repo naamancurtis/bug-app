@@ -5,13 +5,14 @@ import { TiPlus } from 'react-icons/ti';
 type Props = {
   text: string;
   icon: string;
+  onClick: () => void;
 };
 
 export enum ButtonIcons {
   PLUS = 'plus',
 }
 
-const Button: FC<Props> = ({ text, icon }) => {
+const Button: FC<Props> = ({ text, icon, onClick }) => {
   const getIcon = (): ReactNode => {
     switch (icon) {
       case ButtonIcons.PLUS:
@@ -22,7 +23,7 @@ const Button: FC<Props> = ({ text, icon }) => {
   };
 
   return (
-    <ButtonWrapper>
+    <ButtonWrapper onClick={onClick}>
       <IconWrapper>{getIcon()}</IconWrapper>
       <ButtonText>{text}</ButtonText>
     </ButtonWrapper>

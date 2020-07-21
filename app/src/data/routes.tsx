@@ -3,6 +3,7 @@ import { GoProject, GoRepo } from 'react-icons/go';
 import { AiFillBug } from 'react-icons/ai';
 import Projects from '../pages/projects/projects.component';
 import Project from '../pages/project/project.component';
+import EditProject from '../pages/edit-project/edit-project.component';
 
 export type Route = {
   path: string;
@@ -19,6 +20,13 @@ const routes: Route[] = [
     exact: true,
     displayText: 'Project',
     component: () => <Project />,
+    displayInMenu: false,
+  },
+  {
+    path: '/projects/new',
+    exact: true,
+    displayText: 'Project',
+    component: () => <EditProject />,
     displayInMenu: false,
   },
   {

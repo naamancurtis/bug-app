@@ -6,21 +6,7 @@ import { InputTypes as FormInputTypes } from '../../atoms/inline-form-input/inli
 type Props = {};
 
 const Project: FC<Props> = () => {
-  return (
-    <Wrapper>
-      <FormInput labelText={'Text'} formValue="1" type={FormInputTypes.TEXT} />
-      <FormInput
-        labelText={'Select'}
-        formValue="1"
-        type={FormInputTypes.SELECT}
-      />
-      <FormInput
-        labelText={'Area'}
-        formValue="12345"
-        type={FormInputTypes.TEXTAREA}
-      />
-    </Wrapper>
-  );
+  return <Wrapper></Wrapper>;
 };
 
 export default Project;

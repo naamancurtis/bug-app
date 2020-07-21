@@ -13,15 +13,17 @@ import {
 } from './inline-form-input.types';
 
 type Props = {
+  key: string;
   labelText: string;
   type: InputTypes;
-  formValue: string | number;
+  formValue: any;
   cols?: number;
   rows?: number;
   selectOptions?: SelectOptions[];
 };
 
 const InlineFormComponent: FC<Props> = ({
+  key,
   labelText,
   formValue,
   type,

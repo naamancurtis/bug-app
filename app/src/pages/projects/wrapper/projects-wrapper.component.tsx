@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { myProjectsState } from '../projects.state';
 import { CardWrapper, TitleWrapper } from './projects-wrapper.styles';
@@ -11,12 +12,19 @@ type Props = {};
 
 const ProjectsWrapper: FC<Props> = () => {
   const projects: Project[] = useRecoilValue(myProjectsState);
+  const history = useHistory();
 
   return (
     <>
       <TitleWrapper>
         <H1Title>My Projects</H1Title>
-        <Button text="Create Project" icon="plus" />
+        <Button
+          text="Create Project"
+          icon="plus"
+          onClick={() => {
+            history.push(`${history.location.pathname}/new`);
+          }}
+        />
       </TitleWrapper>
       <CardWrapper>
         {projects.map((project) => (
