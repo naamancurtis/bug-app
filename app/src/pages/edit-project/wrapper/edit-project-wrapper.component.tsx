@@ -12,7 +12,6 @@ const EditProjectWrapper: FC<Props> = ({ onSubmit }) => {
   const [project, setProject] = useState(CreateProject());
 
   const updateProject = (key: keyof Project, value: any): void => {
-    console.log(key, value);
     setProject({
       ...project,
       [key]: value,
