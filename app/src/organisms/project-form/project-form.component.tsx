@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
-import { Wrapper } from './project-form.styles';
+import { Wrapper, Button } from './project-form.styles';
 import { Project } from '../../models/project';
 import FormInput from '../../atoms/inline-form-input/inline-form-input.component';
 import { InputTypes } from '../../atoms/inline-form-input/inline-form-input.types';
 import { Form } from '../../models/form';
+import { ButtonIcons } from '../../atoms/button/button.component';
 
 const form: Form<Project>[] = [
   {
@@ -20,11 +21,13 @@ const form: Form<Project>[] = [
 
 type Props = {
   project: Project;
+  submitForm: () => void;
+  updateProject: (key: keyof Project, value: any) => void;
 };
 
 type ProjectValue = Project[keyof Project];
 
-const ProjectForm: FC<Props> = ({ project }) => {
+const ProjectForm: FC<Props> = ({ project, submitForm, updateProject }) => {
   const getValue = (key: keyof Project): ProjectValue => {
     return project[key];
   };
@@ -34,11 +37,18 @@ const ProjectForm: FC<Props> = ({ project }) => {
       {form.map((control) => (
         <FormInput
           key={control.key}
+          inputKey={control.key}
           labelText={control.labelText}
           type={control.type}
           formValue={getValue(control.key)}
+          updateProperty={updateProject}
         />
       ))}
+      <Button
+        text="Create new project!"
+        icon={ButtonIcons.PLUS}
+        onClick={submitForm}
+      />
     </Wrapper>
   );
 };

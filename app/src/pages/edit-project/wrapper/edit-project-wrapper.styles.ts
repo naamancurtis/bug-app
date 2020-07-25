@@ -7,9 +7,7 @@ export const TitleWrapper = styled.div`
   align-items: baseline;
 `;
 
-export const CardWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
+export const FormWrapper = styled.div`
+  width: auto;
+  margin: 1rem 3rem;
 `;

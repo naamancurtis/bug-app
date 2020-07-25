@@ -1,8 +1,9 @@
 import React, { useEffect, FC } from 'react';
-import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { myProjectsState } from './projects.state';
 import ProjectsWrapper from './wrapper/projects-wrapper.component';
+import ProjectAPI from '../../api/project.api';
+import { Project } from '../../models/project';
 
 type Props = {};
 
@@ -12,16 +13,8 @@ const Projects: FC<Props> = () => {
   // Fetch Data
   useEffect(() => {
     (async function () {
-      const result = await axios({
-        method: 'GET',
-        url: `${process.env.REACT_APP_API_URL}/projects`,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (result.status === 200) {
-        setProjects(result.data);
-      }
+      const projects: Project[] = await ProjectAPI.getProjects();
+      setProjects(projects);
     })();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

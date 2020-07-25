@@ -11,21 +11,24 @@ import {
   InputTypes,
   FormInputTypes,
 } from './inline-form-input.types';
+import { Project } from '../../models/project';
 
 type Props = {
-  key: string;
+  inputKey: keyof Project;
   labelText: string;
   type: InputTypes;
   formValue: any;
+  updateProperty: (key: keyof Project, value: any) => void;
   cols?: number;
   rows?: number;
   selectOptions?: SelectOptions[];
 };
 
 const InlineFormComponent: FC<Props> = ({
-  key,
+  inputKey,
   labelText,
   formValue,
+  updateProperty,
   type,
   cols,
   rows,
@@ -49,6 +52,7 @@ const InlineFormComponent: FC<Props> = ({
   }, [formValue]);
 
   const handleOnBlur = () => {
+    updateProperty(inputKey, value);
     setReadOnly(true);
   };
 
@@ -63,13 +67,15 @@ const InlineFormComponent: FC<Props> = ({
     setValue(e?.target.value);
   };
 
+  const createId = (s: string): string => s.replaceAll(' ', '-').toLowerCase();
+
   return (
     <FormGroup onClick={handleOnClick}>
-      <FormLabel id={labelText}>{labelText}</FormLabel>
+      <FormLabel id={createId(labelText)}>{labelText}:</FormLabel>
       {type === InputTypes.TEXTAREA ? (
         <FormTextArea
           ref={(instance) => (inputRef.current = instance)}
-          aria-labelledby={labelText}
+          aria-labelledby={createId(labelText)}
           onChange={handleOnChange}
           onClick={handleOnClick}
           onBlur={() => handleOnBlur()}
@@ -81,7 +87,7 @@ const InlineFormComponent: FC<Props> = ({
       ) : type === InputTypes.SELECT ? (
         <FormSelect
           ref={(instance: HTMLSelectElement) => (inputRef.current = instance)}
-          aria-labelledby={labelText}
+          aria-labelledby={createId(labelText)}
           onChange={handleOnChange}
           onClick={handleOnClick}
           onBlur={() => handleOnBlur()}
@@ -94,7 +100,7 @@ const InlineFormComponent: FC<Props> = ({
       ) : (
         <FormInput
           ref={(instance) => (inputRef.current = instance)}
-          aria-labelledby={labelText}
+          aria-labelledby={createId(labelText)}
           onChange={handleOnChange}
           onClick={handleOnClick}
           onBlur={() => handleOnBlur()}

@@ -6,13 +6,14 @@ type Props = {
   text: string;
   icon: string;
   onClick: () => void;
+  className?: string;
 };
 
 export enum ButtonIcons {
   PLUS = 'plus',
 }
 
-const Button: FC<Props> = ({ text, icon, onClick }) => {
+const Button: FC<Props> = ({ text, icon, onClick, className }) => {
   const getIcon = (): ReactNode => {
     switch (icon) {
       case ButtonIcons.PLUS:
@@ -23,7 +24,7 @@ const Button: FC<Props> = ({ text, icon, onClick }) => {
   };
 
   return (
-    <ButtonWrapper onClick={onClick}>
+    <ButtonWrapper onClick={onClick} className={className}>
       <IconWrapper>{getIcon()}</IconWrapper>
       <ButtonText>{text}</ButtonText>
     </ButtonWrapper>

@@ -8,7 +8,7 @@ export function CreateProject() {
   const project: Project = {
     id: '',
     name: '',
-    members: [],
+    members: ['ROOT USER'],
   };
 
   return project;

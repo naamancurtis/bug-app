@@ -19,9 +19,9 @@ export const readonlyFormInputStyling = css`
 `;
 
 export const baseFormInputStyling = css`
+  grid-column: span 3;
   padding: 0.5em;
   border-radius: 5px;
-  flex-grow: 1;
   outline: none;
   cursor: text;
   font-size: inherit;
@@ -43,7 +43,8 @@ export const combinedFormInputStyling = css`
 `;
 
 export const FormGroup = styled.div`
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
   width: 100%;
   cursor: pointer;
@@ -51,10 +52,11 @@ export const FormGroup = styled.div`
 `;
 
 export const FormLabel = styled.label`
-  margin-right: 0.5em;
+  padding-right: 0.5em;
   cursor: inherit;
   font-size: inherit;
   font-weight: 600;
+  grid-column: span 1;
 `;
 
 export const FormInput = styled.input`
@@ -66,7 +68,6 @@ export const FormTextArea = styled.textarea`
 `;
 
 export const FormSelect = styled(Select)`
-  flex-grow: 1;
   border-radius: 5px;
   cursor: pointer;
   padding: 0;
