@@ -11,20 +11,19 @@ import {
   InputTypes,
   FormInputTypes,
 } from './inline-form-input.types';
-import { Project } from '../../models/project';
 
-type Props = {
-  inputKey: keyof Project;
+type Props<T> = {
+  inputKey: keyof T;
   labelText: string;
   type: InputTypes;
   formValue: any;
-  updateProperty: (key: keyof Project, value: any) => void;
+  updateProperty: (key: keyof T, value: any) => void;
   cols?: number;
   rows?: number;
   selectOptions?: SelectOptions[];
 };
 
-const InlineFormComponent: FC<Props> = ({
+const InlineFormComponent = <T extends {}>({
   inputKey,
   labelText,
   formValue,
@@ -33,7 +32,7 @@ const InlineFormComponent: FC<Props> = ({
   cols,
   rows,
   selectOptions,
-}) => {
+}: Props<T>) => {
   const inputRef = useRef<FormInputTypes | null>(null);
   const [isReadOnly, setReadOnly] = useState(true);
   const [value, setValue] = useState(formValue);
