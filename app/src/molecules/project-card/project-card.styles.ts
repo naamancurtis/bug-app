@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 export const ProjectCardWrapper = styled.div`
-  width: 300px;
   padding: 0.75em;
-  margin: 1em 1em 1em 0;
   border-radius: 15px;
   border: 2px solid ${({ theme }) => theme.primaryAccent};
   cursor: pointer;

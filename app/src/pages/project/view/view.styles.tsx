@@ -5,11 +5,12 @@ export const TitleWrapper = styled.div`
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: baseline;
+  margin-bottom: 1rem;
 `;
 
 export const CardWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 1rem;
   width: 100%;
 `;

@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
-import EditProjectWrapper from './wrapper/edit-project-wrapper.component';
+import View from './view/view.component';
 import ProjectAPI from '../../api/project.api';
 import { Project } from '../../models/project';
+import { useHistory } from 'react-router-dom';
 
 type Props = {};
 
-const EditProject: FC<Props> = ({}) => {
+const EditProject: FC<Props> = () => {
+  const history = useHistory();
+
   const onSubmit = async (project: Project): Promise<void> => {
     const newProject = await ProjectAPI.createNewProject(project);
-    console.log(newProject);
+    history.push(`project/${newProject.id}`);
   };
 
-  return <EditProjectWrapper onSubmit={onSubmit} />;
+  return <View onSubmit={onSubmit} />;
 };
 
 export default EditProject;

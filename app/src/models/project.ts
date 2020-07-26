@@ -1,7 +1,10 @@
+import { Bug } from "./bug";
+
 export interface Project {
   id: string;
   name: string;
   members: string[];
+  bugs: Bug[]
 }
 
 export function CreateProject() {
@@ -9,6 +12,7 @@ export function CreateProject() {
     id: '',
     name: '',
     members: ['ROOT USER'],
+    bugs: []
   };
 
   return project;
