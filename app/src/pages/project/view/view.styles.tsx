@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import tinycolor from 'tinycolor2';
 
 export const TitleWrapper = styled.div`
   display: flex;
@@ -8,9 +9,17 @@ export const TitleWrapper = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const CardWrapper = styled.div`
+export const Bugs = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 1rem;
+  grid-template-columns: 1fr;
+  grid-gap: 0.5em 1em;
+  grid-auto-rows: 30px;
+  align-items: center;
   width: 100%;
+  min-height: 30%;
+  padding: 0.4em 0.3em;
+  background-color: ${({ theme }) => {
+    const color = tinycolor(theme.body).darken(5).toRgbString();
+    return color;
+  }};
 `;
